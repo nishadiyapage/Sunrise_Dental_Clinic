@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Help & User Guide - Sunrise Dental Clinic</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body { 
+    background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)), 
+                url('images/bg1.jpg') no-repeat center center scroll;
+    background-size: cover;
+    color: #334155; 
+    line-height: 1.6; 
+    display: flex; 
+    flex-direction: column; 
+    min-height: 100vh; }
+        
+        .navbar { background-color: #0f172a; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        .navbar .logo { color: #38bdf8; font-size: 20px; font-weight: bold; text-decoration: none; }
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-links a { color: #f1f5f9; text-decoration: none; font-size: 14px; font-weight: 500; }
+        .nav-links a:hover { color: #38bdf8; }
+        .btn-nav { background-color: #0284c7; padding: 8px 16px; border-radius: 6px; color: white !important; }
+        
+        .main-content { flex: 1; }
+        .container { max-width: 900px; margin: 40px auto; background: white; padding: 40px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        h1 { color: #0284c7; margin-bottom: 10px; font-size: 26px; }
+        p.subtitle { color: #64748b; margin-bottom: 30px; font-size: 15px; }
+
+        .guide-section { margin-bottom: 30px; border-bottom: 1px solid #e2e8f0; padding-bottom: 25px; }
+        .guide-section:last-child { border-bottom: none; }
+        .guide-section h2 { color: #0f172a; font-size: 20px; margin-bottom: 15px; }
+        
+        ol { margin-left: 20px; }
+        ol li { margin-bottom: 10px; color: #475569; font-size: 15px; }
+        ol li strong { color: #0f172a; }
+
+        .note-box { background-color: #f0f9ff; border-left: 4px solid #0284c7; padding: 15px; border-radius: 4px; font-size: 14px; color: #0369a1; margin-top: 15px; }
+
+        footer { text-align: center; padding: 20px; background: #0f172a; color: #94a3b8; font-size: 13px; margin-top: auto; }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">Sunrise Dental Clinic</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="help.html">Help</a>
+            <a href="login.html">Book Appointment</a>
+            <a href="login.html">Login</a>
+            <a href="register.html" class="btn-nav">Register</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="container">
+            <h1>System User Guide & Help Center</h1>
+            <p class="subtitle">Step-by-step instructions for staff and new users to navigate the system.</p>
+
+            <div class="guide-section">
+                <h2>1. For New Staff & Administrators</h2>
+                <ol>
+                    <li>Log in using your assigned <strong>Admin Credentials</strong> on the Login page.</li>
+                    <li>Access the <strong>Admin Dashboard</strong> to view all current patient reservations in real-time.</li>
+                    <li>Verify patient appointment details including treatment type, assigned doctor, date, time, and calculated total bill.</li>
+                    <li>Manage schedules and ensure smooth operation during clinic hours.</li>
+                </ol>
+            </div>
+
+            <div class="guide-section">
+                <h2>2. For Patients: How to Book an Appointment</h2>
+                <ol>
+                    <li>Click <strong>Register</strong> in the top navigation bar to create a patient account.</li>
+                    <li>Log in using your registered <strong>Username & Password</strong>.</li>
+                    <li>Once logged in, navigate to the <strong>Book Appointment</strong> page.</li>
+                    <li>Fill in the required fields (Patient Name, Doctor Name, Treatment Type, Appointment Date & Time).</li>
+                    <li>Click <strong>Submit Appointment</strong>.</li>
+                    <li>View your <strong>Booking Confirmation</strong> card and click <strong>View Receipt</strong> to print or download your payment slip.</li>
+                </ol>
+            </div>
+
+            <div class="note-box">
+                <strong>Important Rule:</strong> To ensure data security, only registered users who log in with a valid username and password can book an appointment.
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Sunrise Dental Clinic. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
