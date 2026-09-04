@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard - Sunrise Dental Clinic</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body { 
+            background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), 
+                        url('images/bg1.jpg') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px; 
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 650px;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .form-container h3 {
+            color: #0284c7;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333333;
+            font-size: 14px;
+        }
+
+        .form-group input, 
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus {
+            border-color: #28a745;
+        }
+
+        /* Live Fee Breakdown Box */
+        .price-breakdown {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+
+        .price-row.total {
+            border-top: 2px solid #0f172a;
+            padding-top: 10px;
+            margin-bottom: 0;
+            font-weight: bold;
+            font-size: 16px;
+            color: #0f172a;
+        }
+
+        /* Buttons alignment (Confirm Booking Left, Exit Right) */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-submit {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: #218838;
+        }
+
+        .btn-exit {
+            background-color: #dc3545;
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-exit:hover {
+            background-color: #bd2130;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h3>Book a Dental Appointment</h3>
+        
+        <form action="AppointmentServlet" method="POST">
+            
+            <div class="form-group">
+                <label>Patient Name:</label>
+                <input type="text" name="patientName" required placeholder="Enter full name">
+            </div>
+
+            <div class="form-group">
+                <label>Address:</label>
+                <input type="text" name="address" required placeholder="Enter address">
+            </div>
+
+            <div class="form-group">
+                <label>Contact Number:</label>
+                <input type="tel" name="contactNumber" required placeholder="Enter contact number">
+            </div>
+
+            <div class="form-group">
+                <label>Select Doctor:</label>
+                <select name="doctorName" required>
+                    <option value="" disabled selected>-- Select Doctor --</option>
+                    <option value="Dr.Chanaka Bandara(General Dentistry)">Dr.Chanaka Bandara(General Dentistry)</option>
+                    <option value="Dr.Raheem khan (Orthodontics)">Dr.Raheem khan(Orthodontics)</option>
+                    <option value="Dr.Kumudu Perera (Periodontics)">Dr.Kumudu Perera(Periodontics)</option>
+                    <option value="Dr.Sithum Sankalpa (Orthodontist)">Dr.Sithum Sankalpa(Orthodontist)</option>
+                    <option value="Dr.Shani Silva(Endodontist)">Dr.Shani Silva(Endodontist)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Treatment Type:</label>
+                <select name="treatmentType" id="treatmentType" onchange="calculateTotalFee()" required>
+                    <option value="" disabled selected>-- Select Treatment --</option>
+                    <option value="Cleaning" data-price="2000">Dental Cleaning (Rs. 2,000)</option>
+                    <option value="Filling" data-price="3500">Tooth Filling (Rs. 3,500)</option>
+                    <option value="Extraction" data-price="4500">Tooth Extraction (Rs. 4,500)</option>
+                    <option value="Root Canal" data-price="8500">Root Canal Treatment (Rs. 8,500)</option>
+                    <option value="Braces" data-price="50000">Dental Braces Treatment (Rs. 50,000)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Date:</label>
+                <input type="date" name="appointmentDate" required>
+            </div>
+
+            <div class="form-group">
+                <label>Time:</label>
+                <input type="time" name="appointmentTime" required>
+            </div>
+
+            <div class="price-breakdown">
+                <div class="price-row">
+                    <span>Treatment Fee:</span>
+                    <span id="displayTreatmentFee">Rs. 0.00</span>
+                </div>
+                <div class="price-row">
+                    <span>Doctor Channelling Fee:</span>
+                    <span>Rs. 1,500.00</span>
+                </div>
+                <div class="price-row total">
+                    <span>Total Bill:</span>
+                    <span id="displayTotalBill">Rs. 1,500.00</span>
+                </div>
+            </div>
+
+            <input type="hidden" name="totalCost" id="totalCostInput" value="1500">
+
+            <div class="btn-group">
+                <button type="submit" class="btn-submit">Confirm Booking</button>
+                <button type="button" onclick="exitSystem()" class="btn-exit">Exit System</button>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        // Calculate and update fees dynamically
+        function calculateTotalFee() {
+            const selectElement = document.getElementById("treatmentType");
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            
+            // Get base price from custom data attribute
+            const treatmentFee = parseFloat(selectedOption.getAttribute("data-price")) || 0;
+            const channellingFee = 1500;
+            const totalBill = treatmentFee + channellingFee;
+
+            // Update UI
+            document.getElementById("displayTreatmentFee").innerText = "Rs. " + treatmentFee.toLocaleString('en-US', {minimumFractionDigits: 2});
+            document.getElementById("displayTotalBill").innerText = "Rs. " + totalBill.toLocaleString('en-US', {minimumFractionDigits: 2});
+            
+            // Pass total value to hidden input
+            document.getElementById("totalCostInput").value = totalBill;
+        }
+
+        function exitSystem() {
+            if (confirm("Are you sure you want to exit the system safely?")) {
+                window.location.href = "LogoutServlet";
+            }
+        }
+    </script>
+
+</body>
+</html>
