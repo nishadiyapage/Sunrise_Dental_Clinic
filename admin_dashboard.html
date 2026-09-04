@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard - Sunrise Dental Clinic</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #f4f6f9; 
+            margin: 0; 
+            padding: 20px; 
+        }
+        .container { 
+            max-width: 950px; 
+            margin: 30px auto; 
+            background: #ffffff; 
+            padding: 30px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        h1 { 
+            color: #007bff; 
+            margin: 0; 
+        }
+        .nav-link { 
+            padding: 8px 16px; 
+            background-color: #dc3545; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 4px; 
+            font-weight: bold; 
+        }
+        .nav-link:hover { 
+            background-color: #bd2130; 
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .status-badge {
+            background-color: #ffc107;
+            color: #000;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Admin Dashboard</h1>
+            <a href="LogoutServlet" class="nav-link">Exit</a>
+        </div>
+        
+        <p>Welcome, Administrator! Here is the complete list of all patient appointments:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Patient Username</th>
+                    <th>Doctor Name</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="appointmentTableBody">
+                <tr>
+                    <td colspan="6" style="text-align:center;">Loading appointments...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Fetch appointments from AdminServlet
+        window.onload = function() {
+            fetch('AdminServlet')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('appointmentTableBody');
+                    tbody.innerHTML = ''; // Clear loading row
+
+                    if (data.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No appointments found.</td></tr>';
+                        return;
+                    }
+
+                    data.forEach(app => {
+                        const row = `<tr>
+                            <td>${app.id}</td>
+                            <td>${app.patientUsername}</td>
+                            <td>${app.doctorName}</td>
+                            <td>${app.appointmentDate}</td>
+                            <td>${app.appointmentTime}</td>
+                            <td><span class="status-badge">${app.status}</span></td>
+                        </tr>`;
+                        tbody.innerHTML += row;
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching appointments:', error);
+                    document.getElementById('appointmentTableBody').innerHTML = 
+                        '<tr><td colspan="6" style="text-align:center; color:red;">Failed to load data.</td></tr>';
+                });
+        };
+    </script>
+</body>
+</html>
