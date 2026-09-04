@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Details & Billing - Sunrise Dental Clinic</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), 
+                        url('images/bg1.jpg') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 15px;
+        }
+
+        .details-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 600px;
+            padding: 35px 30px;
+            border-radius: 12px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            color: #0284c7;
+            font-size: 22px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-box button {
+            background-color: #0284c7;
+            color: #ffffff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .search-box button:hover {
+            background-color: #0369a1;
+        }
+
+        .bill-receipt {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            background-color: #f8fafc;
+            display: none;
+        }
+
+        .receipt-header {
+            text-align: center;
+            border-bottom: 2px dashed #cbd5e1;
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+        }
+
+        .receipt-header h3 {
+            color: #0f172a;
+            font-size: 18px;
+        }
+
+        .receipt-header p {
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        .details-table td {
+            padding: 8px 0;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        .details-table td:first-child {
+            font-weight: 600;
+            width: 45%;
+        }
+
+        .total-row {
+            border-top: 2px solid #0f172a;
+            border-bottom: 2px double #0f172a;
+            font-weight: 700;
+            font-size: 16px;
+            color: #0284c7;
+        }
+
+        .actions-container {
+            margin-top: 25px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-action {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-print {
+            background-color: #16a34a;
+            color: #ffffff;
+        }
+
+        .btn-print:hover {
+            background-color: #15803d;
+        }
+
+        .btn-exit {
+            background-color: #dc2626;
+            color: #ffffff;
+        }
+
+        .btn-exit:hover {
+            background-color: #b91c1c;
+        }
+
+        /* Print styles to only print the bill receipt */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .bill-receipt, .bill-receipt * {
+                visibility: visible;
+            }
+            .bill-receipt {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                border: none;
+                background-color: #ffffff;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="details-card">
+        <h2>Appointment Details & Bill</h2>
+
+        <!-- Search Bar -->
+        <div class="search-box">
+            <input type="number" id="searchInput" placeholder="Enter Appointment Number (e.g. 1)" required>
+            <button onclick="searchAppointment()">Search</button>
+        </div>
+
+        <!-- Bill Receipt Display -->
+        <div id="billReceipt" class="bill-receipt">
+            <div class="receipt-header">
+                <h3>SUNRISE DENTAL CLINIC</h3>
+                <p>Official Payment Receipt & Appointment Slip</p>
+            </div>
+
+            <table class="details-table">
+                <tr>
+                    <td>Appointment Number:</td>
+                    <td id="dispAppId">-</td>
+                </tr>
+                <tr>
+                    <td>Patient Name:</td>
+                    <td id="dispPatientName">-</td>
+                </tr>
+                <tr>
+                    <td>Address:</td>
+                    <td id="dispAddress">-</td>
+                </tr>
+                <tr>
+                    <td>Contact Number:</td>
+                    <td id="dispContact">-</td>
+                </tr>
+                <tr>
+                    <td>Assigned Dentist:</td>
+                    <td id="dispDentist">-</td>
+                </tr>
+                <tr>
+                    <td>Treatment Type:</td>
+                    <td id="dispTreatment">-</td>
+                </tr>
+                <tr>
+                    <td>Date & Time:</td>
+                    <td id="dispDateTime">-</td>
+                </tr>
+                <tr>
+                    <td>Consultation Fee:</td>
+                    <td>Rs. 1,500.00</td>
+                </tr>
+                <tr class="total-row">
+                    <td>Total Bill Amount:</td>
+                    <td id="dispTotalCost">Rs. 0.00</td>
+                </tr>
+            </table>
+
+            <div class="actions-container">
+                <button onclick="downloadBill()" class="btn-action btn-print">Print / Download Bill</button>
+                <button onclick="exitSystem()" class="btn-action btn-exit">Exit System</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Pre-fill search if ID parameter is provided in URL
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            if (id) {
+                document.getElementById('searchInput').value = id;
+                fetchAppointmentDetails(id);
+            }
+        };
+
+        function searchAppointment() {
+            const id = document.getElementById('searchInput').value;
+            if (id) {
+                fetchAppointmentDetails(id);
+            } else {
+                alert('Please enter a valid Appointment Number.');
+            }
+        }
+
+        // Mock fetch details - replaces actual API response binding
+        function fetchAppointmentDetails(id) {
+            // Display receipt section
+            document.getElementById('billReceipt').style.display = 'block';
+            document.getElementById('dispAppId').innerText = '#' + id;
+            
+            // Note: In real setup, replace these with fetch dynamic data from a Servlet endpoint
+            document.getElementById('dispPatientName').innerText = "Confirmed Patient";
+            document.getElementById('dispAddress').innerText = "Registered Address";
+            document.getElementById('dispContact').innerText = "Provided Contact";
+            document.getElementById('dispDentist').innerText = "Selected Dentist";
+            document.getElementById('dispTreatment').innerText = "Dental Treatment";
+            document.getElementById('dispDateTime').innerText = "Scheduled Date & Time";
+            document.getElementById('dispTotalCost').innerText = "Rs. 3,500.00";
+        }
+
+        function downloadBill() {
+            window.print();
+        }
+
+        function exitSystem() {
+            if (confirm("Are you sure you want to safely exit the application?")) {
+                window.location.href = "LogoutServlet";
+            }
+        }
+    </script>
+
+</body>
+</html>
