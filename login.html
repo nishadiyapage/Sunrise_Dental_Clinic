@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sunrise Dental Clinic</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.65)), 
+                        url('images/bg1.jpg') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background-color: #0f172a;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .navbar .logo { color: #38bdf8; font-size: 20px; font-weight: bold; text-decoration: none; }
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-links a { color: #f1f5f9; text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: #38bdf8; }
+        .btn-nav { background-color: #0284c7; padding: 8px 16px; border-radius: 6px; color: white !important; }
+        .btn-nav:hover { background-color: #0369a1 !important; }
+
+        /* Main Container for Centering Card */
+        .main-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .login-card {
+            background: #ffffff;
+            padding: 40px 35px;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 12px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .login-card h2 {
+            color: #0284c7;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #334155;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .form-group input:focus {
+            border-color: #0284c7;
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.2);
+        }
+
+        .btn-login {
+            width: 100%;
+            background-color: #0284c7;
+            color: #ffffff;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            background-color: #0369a1;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .register-link a {
+            color: #0284c7;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Message Box Styling */
+        .error-msg {
+            color: #991b1b;
+            background-color: #fee2e2;
+            border: 1px solid #fca5a5;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 18px;
+            font-size: 14px;
+            display: none;
+            text-align: center;
+        }
+
+        .success-msg {
+            color: #166534;
+            background-color: #dcfce7;
+            border: 1px solid #86efac;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 18px;
+            font-size: 14px;
+            display: none;
+            text-align: center;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #0f172a;
+            color: #94a3b8;
+            font-size: 13px;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navigation Bar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">Sunrise Dental Clinic</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="help.html">Help</a>
+            <a href="login.html">Book Appointment</a>
+            <a href="login.html">Login</a>
+            <a href="register.html" class="btn-nav">Register</a>
+        </div>
+    </nav>
+
+    <!-- Main Section -->
+    <div class="main-container">
+        <div class="login-card">
+            <h2>Sunrise Dental Clinic</h2>
+
+            <!-- Dynamic Alert Boxes -->
+            <div id="errorMessage" class="error-msg"></div>
+            <div id="successMessage" class="success-msg"></div>
+
+            <form action="LoginServlet" method="POST">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+
+                <button type="submit" class="btn-login">Login</button>
+            </form>
+
+            <div class="register-link">
+                New Patient? <a href="register.html">Register here</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Sunrise Dental Clinic. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const error = urlParams.get('error');
+            const registration = urlParams.get('registration');
+
+            const errorBox = document.getElementById('errorMessage');
+            const successBox = document.getElementById('successMessage');
+
+            if (error === 'not_registered') {
+                errorBox.innerText = 'Sorry, you are not a registered user. Please register first.';
+                errorBox.style.display = 'block';
+            } else if (error === 'invalid_credentials') {
+                errorBox.innerText = 'Invalid credentials. Please try again.';
+                errorBox.style.display = 'block';
+            }
+
+            if (registration === 'success') {
+                successBox.innerText = 'Registration successful! Please login with your new account.';
+                successBox.style.display = 'block';
+            }
+        };
+    </script>
+
+</body>
+</html>
